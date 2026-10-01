@@ -1,29 +1,34 @@
 ```javascript
 // =====================================
-// BIRTHDAY COUNTDOWN
-// Likky Vadhina - October 18, 2026
+// 💜 LIKKY VADHINA BIRTHDAY COUNTDOWN
+// 🎂 October 18, 2026 — 12:00 AM IST
 // =====================================
 
-// Birthday date and time
-// October 18, 2026 at 12:00 AM IST
+// October 18, 2026 00:00 IST
+// IST = UTC + 5:30
+// So in UTC it is October 17, 2026 18:30
 
-const birthdayDate = new Date("October 18, 2026 00:00:00").getTime();
+const birthdayDate = Date.UTC(
+    2026,
+    9,      // October (0 = January)
+    17,     // October 17 UTC
+    18,     // 18:30 UTC
+    30,
+    0
+);
 
 const daysElement = document.getElementById("days");
 const hoursElement = document.getElementById("hours");
 const minutesElement = document.getElementById("minutes");
 const secondsElement = document.getElementById("seconds");
 
+function updateCountdown() {
 
-// Update countdown every second
-const countdown = setInterval(function () {
-
-    const now = new Date().getTime();
+    const now = Date.now();
 
     const difference = birthdayDate - now;
 
-
-    // Birthday reached
+    // 🎂 Birthday has arrived
     if (difference <= 0) {
 
         clearInterval(countdown);
@@ -49,8 +54,7 @@ const countdown = setInterval(function () {
         return;
     }
 
-
-    // Calculate time
+    // Calculate remaining time
     const days = Math.floor(
         difference / (1000 * 60 * 60 * 24)
     );
@@ -67,15 +71,23 @@ const countdown = setInterval(function () {
         (difference / 1000) % 60
     );
 
+    // Display countdown
+    daysElement.textContent =
+        String(days).padStart(2, "0");
 
-    // Display
-    daysElement.innerHTML = String(days).padStart(2, "0");
+    hoursElement.textContent =
+        String(hours).padStart(2, "0");
 
-    hoursElement.innerHTML = String(hours).padStart(2, "0");
+    minutesElement.textContent =
+        String(minutes).padStart(2, "0");
 
-    minutesElement.innerHTML = String(minutes).padStart(2, "0");
+    secondsElement.textContent =
+        String(seconds).padStart(2, "0");
+}
 
-    secondsElement.innerHTML = String(seconds).padStart(2, "0");
+// Start immediately
+updateCountdown();
 
-}, 1000);
+// Update every second
+const countdown = setInterval(updateCountdown, 1000);
 ```
